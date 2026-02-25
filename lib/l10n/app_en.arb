@@ -1,0 +1,155 @@
+{
+  "@@locale": "en",
+  "appTitle": "Lite Manufacturing MES",
+  "@appTitle": {
+    "description": "Application title"
+  },
+  "purchaseOrders": "Purchase Orders",
+  "addPurchaseOrder": "Add Purchase Order",
+  "poNumber": "PO Number",
+  "poDate": "PO Date",
+  "partNumber": "Part Number",
+  "totalQuantity": "PO Quantity",
+  "productionQuantity": "Production Quantity",
+  "deliveryDate": "Delivery Date",
+  "currentStatus": "Current Status",
+  "updateStatus": "Update Status",
+  "productionStages": "Production Stages",
+  "downloadReport": "Download Report",
+  "welcome": "Welcome",
+  "role": "Role",
+  "totalPOs": "Total POs",
+  "addPO": "Add PO",
+  "noPurchaseOrders": "No Purchase Orders",
+  "addFirstPO": "Add your first purchase order to get started",
+  "poDetails": "Purchase Order Details",
+  "poInformation": "Purchase Order Information",
+  "canUpdateAnyStage": "You can update to any production stage",
+  "canOnlyMoveNext": "You can only move to the next stage",
+  "orderCompleted": "Order completed! All stages finished.",
+  "moveTo": "Move to {stage}",
+  "@moveTo": {
+    "placeholders": {
+      "stage": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseReportFormat": "Choose report format:",
+  "generatingReport": "Generating report...",
+  "reportSaved": "Report saved to: {path}",
+  "@reportSaved": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "noPOsForReport": "No purchase orders to generate report",
+  "errorGeneratingReport": "Unable to generate report. Please try again later.",
+  "poAddedSuccess": "Purchase Order added successfully!",
+  "statusUpdated": "Status updated to {status}",
+  "@statusUpdated": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnter": "Please enter {field}",
+  "@pleaseEnter": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "enterValidQuantity": "Please enter a valid quantity",
+  "productionQtyExceeds": "Production quantity must be greater than PO quantity",
+  "masterUser": "Master User",
+  "normalUser": "Normal User",
+  "switchedTo": "Switched to {role} User",
+  "@switchedTo": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "language": "Language",
+  "english": "English",
+  "tamil": "Tamil",
+  "error": "Error",
+  "success": "Success",
+  "info": "Information",
+  "warning": "Warning",
+  "notFoundError": "Purchase Order not found",
+  "networkError": "Unable to connect. Please check your internet connection and try again.",
+  "permissionError": "You do not have permission to perform this action.",
+  "validationError": "Please check your input and try again.",
+  "storageError": "Unable to save data. Please check available storage space.",
+  "genericError": "Something went wrong. Please try again later.",
+  "login": "Login",
+  "phoneNumber": "Phone Number",
+  "enterPhoneNumber": "Enter your phone number to continue",
+  "invalidPhoneNumber": "Invalid phone number. Please enter a valid registered phone number.",
+  "invalidPhoneFormat": "Phone number must be exactly 10 digits",
+  "loginSuccess": "Login successful!",
+  "loggingIn": "Logging in...",
+  "loginInstructions": "Login Instructions:",
+  "logout": "Logout",
+  "qrCode": "QR Code",
+  "scanQRCode": "Scan QR Code",
+  "scanQRCodeInstructions": "Point your camera at the QR code to view the Purchase Order",
+  "pointCameraAtQRCode": "Point camera at QR code",
+  "scanQRCodeToViewPO": "Scan this QR code to quickly view this Purchase Order",
+  "viewQRCode": "View QR Code",
+  "poFound": "Purchase Order found!",
+  "poNotFound": "Purchase Order not found. Please check the QR code.",
+  "close": "Close",
+  "webQRScannerNotSupported": "QR Scanner not available on web",
+  "enterPOIdManually": "Please enter the Purchase Order ID manually",
+  "enterPOId": "Enter PO ID",
+  "searchPO": "Search PO",
+  "downloadQRCode": "Download QR Code",
+  "qrCodeDownloaded": "QR Code downloaded successfully!",
+  "qrCodeSaved": "QR Code saved to: {path}",
+  "@qrCodeSaved": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "Failed to download QR code. Please try again.",
+  "adminStatusUpdateNote": "Note: Admin user has updated the status of this Purchase Order.",
+  "adminChangedStatusTo": "Note: Admin user has changed the status to {status}",
+  "@adminChangedStatusTo": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "statusUpdatedByAdmin": "Status was updated by Admin user",
+  "acceptQuantity": "Accept Quantity",
+  "rejectedQuantity": "Rejected Quantity",
+  "submitQuantities": "Submit Quantities",
+  "quantitiesSubmitted": "Quantities submitted successfully!",
+  "sumExceedsProduction": "Sum of accepted and rejected quantities cannot exceed production quantity",
+  "enterQuantities": "Please enter accept and rejected quantities",
+  "totalBuffer": "Total Buffer",
+  "enterCorrectValues": "Please enter correct values. Sum of accept and rejected quantities should not exceed production quantity",
+  "quantitiesRequired": "Both accept and rejected quantities are required",
+  "quantitySummary": "Quantity Summary",
+  "inspectedBy": "Inspected By",
+  "operatorSupplierName": "Operator/Supplier Name",
+  "rejectedAtStage": "Rejected At Stage",
+  "pleaseEnterInspectedBy": "Please enter inspected by name",
+  "pleaseEnterOperatorSupplier": "Please enter operator/supplier name",
+  "rejectionDetails": "Rejection Details",
+  "remainingQuantity": "Remaining Quantity",
+  "movedTo": "Moved To",
+  "rejectedAt": "Rejected At"
+}
+

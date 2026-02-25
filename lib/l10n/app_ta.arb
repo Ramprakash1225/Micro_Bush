@@ -1,0 +1,152 @@
+{
+  "@@locale": "ta",
+  "appTitle": "லைட் மேனுஃபேக்சரிங் MES",
+  "purchaseOrders": "கொள்முதல் ஆர்டர்கள்",
+  "addPurchaseOrder": "கொள்முதல் ஆர்டர் சேர்க்க",
+  "poNumber": "PO எண்",
+  "poDate": "PO தேதி",
+  "partNumber": "பாக எண்",
+  "totalQuantity": "PO அளவு",
+  "productionQuantity": "உற்பத்தி அளவு",
+  "deliveryDate": "விநியோக தேதி",
+  "currentStatus": "தற்போதைய நிலை",
+  "updateStatus": "நிலையை புதுப்பிக்க",
+  "productionStages": "உற்பத்தி நிலைகள்",
+  "downloadReport": "அறிக்கை பதிவிறக்க",
+  "welcome": "வரவேற்கிறோம்",
+  "role": "பங்கு",
+  "totalPOs": "மொத்த PO-கள்",
+  "addPO": "PO சேர்க்க",
+  "noPurchaseOrders": "கொள்முதல் ஆர்டர்கள் இல்லை",
+  "addFirstPO": "தொடங்க உங்கள் முதல் கொள்முதல் ஆர்டரைச் சேர்க்கவும்",
+  "poDetails": "கொள்முதல் ஆர்டர் விவரங்கள்",
+  "poInformation": "கொள்முதல் ஆர்டர் தகவல்",
+  "canUpdateAnyStage": "நீங்கள் எந்த உற்பத்தி நிலைக்கும் புதுப்பிக்கலாம்",
+  "canOnlyMoveNext": "நீங்கள் அடுத்த நிலைக்கு மட்டுமே நகர்த்தலாம்",
+  "orderCompleted": "ஆர்டர் முடிந்தது! அனைத்து நிலைகளும் முடிந்தன.",
+  "moveTo": "{stage} க்கு நகர்த்த",
+  "@moveTo": {
+    "placeholders": {
+      "stage": {
+        "type": "String"
+      }
+    }
+  },
+  "chooseReportFormat": "அறிக்கை வடிவத்தைத் தேர்ந்தெடுக்கவும்:",
+  "generatingReport": "அறிக்கை உருவாக்கப்படுகிறது...",
+  "reportSaved": "அறிக்கை சேமிக்கப்பட்டது: {path}",
+  "@reportSaved": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "noPOsForReport": "அறிக்கை உருவாக்க கொள்முதல் ஆர்டர்கள் இல்லை",
+  "errorGeneratingReport": "அறிக்கையை உருவாக்க முடியவில்லை. பிறகு மீண்டும் முயற்சிக்கவும்.",
+  "poAddedSuccess": "கொள்முதல் ஆர்டர் வெற்றிகரமாக சேர்க்கப்பட்டது!",
+  "statusUpdated": "நிலை புதுப்பிக்கப்பட்டது: {status}",
+  "@statusUpdated": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "pleaseEnter": "தயவுசெய்து {field} உள்ளிடவும்",
+  "@pleaseEnter": {
+    "placeholders": {
+      "field": {
+        "type": "String"
+      }
+    }
+  },
+  "enterValidQuantity": "தயவுசெய்து சரியான அளவை உள்ளிடவும்",
+  "productionQtyExceeds": "உற்பத்தி அளவு PO அளவை விட அதிகமாக இருக்க வேண்டும்",
+  "masterUser": "மாஸ்டர் பயனர்",
+  "normalUser": "சாதாரண பயனர்",
+  "switchedTo": "{role} பயனருக்கு மாற்றப்பட்டது",
+  "@switchedTo": {
+    "placeholders": {
+      "role": {
+        "type": "String"
+      }
+    }
+  },
+  "language": "மொழி",
+  "english": "ஆங்கிலம்",
+  "tamil": "தமிழ்",
+  "error": "பிழை",
+  "success": "வெற்றி",
+  "info": "தகவல்",
+  "warning": "எச்சரிக்கை",
+  "notFoundError": "கொள்முதல் ஆர்டர் காணப்படவில்லை",
+  "networkError": "இணைக்க முடியவில்லை. உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும் மீண்டும் முயற்சிக்கவும்.",
+  "permissionError": "இந்த செயலைச் செய்ய உங்களுக்கு அனுமதி இல்லை.",
+  "validationError": "தயவுசெய்து உங்கள் உள்ளீட்டைச் சரிபார்க்கவும் மீண்டும் முயற்சிக்கவும்.",
+  "storageError": "தரவைச் சேமிக்க முடியவில்லை. கிடைக்கும் சேமிப்பு இடத்தைச் சரிபார்க்கவும்.",
+  "genericError": "ஏதோ தவறு நடந்தது. பிறகு மீண்டும் முயற்சிக்கவும்.",
+  "login": "உள்நுழைய",
+  "phoneNumber": "தொலைபேசி எண்",
+  "enterPhoneNumber": "தொடர உங்கள் தொலைபேசி எண்ணை உள்ளிடவும்",
+  "invalidPhoneNumber": "தவறான தொலைபேசி எண். தயவுசெய்து சரியான பதிவுசெய்யப்பட்ட தொலைபேசி எண்ணை உள்ளிடவும்.",
+  "invalidPhoneFormat": "தொலைபேசி எண் சரியாக 10 இலக்கங்களாக இருக்க வேண்டும்",
+  "loginSuccess": "வெற்றிகரமாக உள்நுழைந்தது!",
+  "loggingIn": "உள்நுழைகிறது...",
+  "loginInstructions": "உள்நுழைவு வழிமுறைகள்:",
+  "logout": "வெளியேற",
+  "qrCode": "QR குறியீடு",
+  "scanQRCode": "QR குறியீட்டை ஸ்கேன் செய்ய",
+  "scanQRCodeInstructions": "கொள்முதல் ஆர்டரைக் காண QR குறியீட்டில் உங்கள் கேமராவை சுட்டிக்காட்டவும்",
+  "pointCameraAtQRCode": "QR குறியீட்டில் கேமராவை சுட்டிக்காட்டவும்",
+  "scanQRCodeToViewPO": "இந்த கொள்முதல் ஆர்டரை விரைவாகக் காண இந்த QR குறியீட்டை ஸ்கேன் செய்யவும்",
+  "viewQRCode": "QR குறியீட்டைக் காண",
+  "poFound": "கொள்முதல் ஆர்டர் கண்டறியப்பட்டது!",
+  "poNotFound": "கொள்முதல் ஆர்டர் காணப்படவில்லை. தயவுசெய்து QR குறியீட்டைச் சரிபார்க்கவும்.",
+  "close": "மூடு",
+  "webQRScannerNotSupported": "QR ஸ்கேனர் வலைத்தளத்தில் கிடைக்கவில்லை",
+  "enterPOIdManually": "தயவுசெய்து கொள்முதல் ஆர்டர் ID ஐ கைமுறையாக உள்ளிடவும்",
+  "enterPOId": "PO ID உள்ளிடவும்",
+  "searchPO": "PO தேட",
+  "downloadQRCode": "QR குறியீட்டை பதிவிறக்க",
+  "qrCodeDownloaded": "QR குறியீடு வெற்றிகரமாக பதிவிறக்கப்பட்டது!",
+  "qrCodeSaved": "QR குறியீடு சேமிக்கப்பட்டது: {path}",
+  "@qrCodeSaved": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "downloadFailed": "QR குறியீட்டை பதிவிறக்க முடியவில்லை. தயவுசெய்து மீண்டும் முயற்சிக்கவும்.",
+  "adminStatusUpdateNote": "குறிப்பு: நிர்வாக பயனர் இந்த கொள்முதல் ஆர்டரின் நிலையை புதுப்பித்துள்ளார்.",
+  "adminChangedStatusTo": "குறிப்பு: நிர்வாக பயனர் நிலையை {status} க்கு மாற்றியுள்ளார்",
+  "@adminChangedStatusTo": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "statusUpdatedByAdmin": "நிலை நிர்வாக பயனரால் புதுப்பிக்கப்பட்டது",
+  "acceptQuantity": "ஏற்றுக்கொள்ளப்பட்ட அளவு",
+  "rejectedQuantity": "நிராகரிக்கப்பட்ட அளவு",
+  "submitQuantities": "அளவுகளை சமர்ப்பிக்க",
+  "quantitiesSubmitted": "அளவுகள் வெற்றிகரமாக சமர்ப்பிக்கப்பட்டன!",
+  "sumExceedsProduction": "ஏற்றுக்கொள்ளப்பட்ட மற்றும் நிராகரிக்கப்பட்ட அளவுகளின் கூட்டுத்தொகை உற்பத்தி அளவை விட அதிகமாக இருக்கக்கூடாது",
+  "enterQuantities": "தயவுசெய்து ஏற்றுக்கொள்ளப்பட்ட மற்றும் நிராகரிக்கப்பட்ட அளவுகளை உள்ளிடவும்",
+  "totalBuffer": "மொத்த பஃப்பர்",
+  "enterCorrectValues": "தயவுசெய்து சரியான மதிப்புகளை உள்ளிடவும். ஏற்றுக்கொள்ளப்பட்ட மற்றும் நிராகரிக்கப்பட்ட அளவுகளின் கூட்டுத்தொகை உற்பத்தி அளவை விட அதிகமாக இருக்கக்கூடாது",
+  "quantitiesRequired": "ஏற்றுக்கொள்ளப்பட்ட மற்றும் நிராகரிக்கப்பட்ட அளவுகள் இரண்டும் தேவை",
+  "quantitySummary": "அளவு சுருக்கம்",
+  "inspectedBy": "பரிசோதித்தவர்",
+  "operatorSupplierName": "ஆபரேட்டர்/சப்ளையர் பெயர்",
+  "rejectedAtStage": "நிராகரிக்கப்பட்ட நிலை",
+  "pleaseEnterInspectedBy": "தயவுசெய்து பரிசோதித்தவரின் பெயரை உள்ளிடவும்",
+  "pleaseEnterOperatorSupplier": "தயவுசெய்து ஆபரேட்டர்/சப்ளையர் பெயரை உள்ளிடவும்",
+  "rejectionDetails": "நிராகரிப்பு விவரங்கள்",
+  "remainingQuantity": "மீதமுள்ள அளவு",
+  "movedTo": "நகர்த்தப்பட்டது",
+  "rejectedAt": "நிராகரிக்கப்பட்ட நேரம்"
+}
+
