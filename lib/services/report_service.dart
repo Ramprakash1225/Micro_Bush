@@ -45,7 +45,7 @@ class ReportService {
 
       final csv = const ListToCsvConverter().convert(rows);
       final filename = 'po_report_${DateTime.now().millisecondsSinceEpoch}.csv';
-      
+
       if (kIsWeb) {
         // For web, trigger browser download
         final bytes = utf8.encode(csv);
@@ -120,11 +120,11 @@ class ReportService {
                     ],
                   ),
                   ...orders.map((order) {
-                    String? firstImage;
-                    for (final r in order.rejectionRecords) {
+                    String? lastUpdatedImage;
+                    for (final r in order.rejectionRecords.reversed) {
                       if (r.rejectionImageBase64 != null &&
                           r.rejectionImageBase64!.isNotEmpty) {
-                        firstImage = r.rejectionImageBase64;
+                        lastUpdatedImage = r.rejectionImageBase64;
                         break;
                       }
                     }
@@ -137,11 +137,13 @@ class ReportService {
                         _buildTableCell(order.productionQuantity.toString()),
                         _buildTableCell(_dateFormat.format(order.deliveryDate)),
                         _buildTableCell(order.currentStatus.displayName),
-                        firstImage != null
+                        lastUpdatedImage != null
                             ? pw.Padding(
                                 padding: const pw.EdgeInsets.all(4),
                                 child: pw.Image(
-                                  pw.MemoryImage(base64Decode(firstImage)),
+                                  pw.MemoryImage(
+                                    base64Decode(lastUpdatedImage),
+                                  ),
                                   width: 80,
                                   height: 60,
                                   fit: pw.BoxFit.cover,
@@ -210,4 +212,3 @@ class ReportService {
     );
   }
 }
-

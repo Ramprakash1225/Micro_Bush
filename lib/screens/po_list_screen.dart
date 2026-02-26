@@ -26,22 +26,10 @@ class POListScreen extends StatelessWidget {
       appBar: AppBar(
         title: Row(
           children: [
-            // Logo placeholder - replace with actual logo when available
-            Container(
-              width: 32,
-              height: 32,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(8),
-              ),
-              child: const Icon(Icons.precision_manufacturing, size: 20),
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                l10n.purchaseOrders,
-                style: const TextStyle(fontSize: 20),
-              ),
+            Image.asset(
+              'assets/logo/micro_bush_name.jpg',
+              height: 50,
+              fit: BoxFit.contain,
             ),
           ],
         ),
@@ -82,10 +70,20 @@ class POListScreen extends StatelessWidget {
       body: Column(
         children: [
           Container(
-            padding: const EdgeInsets.all(Branding.spacingM),
+            padding: const EdgeInsets.all(Branding.spacingL),
             decoration: BoxDecoration(
-              color: theme.colorScheme.surfaceContainerHighest,
-              boxShadow: Branding.cardShadow,
+              color: theme.colorScheme.surface,
+              boxShadow: [
+                BoxShadow(
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+              borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(Branding.radiusXL),
+                bottomRight: Radius.circular(Branding.radiusXL),
+              ),
             ),
             child: Row(
               children: [

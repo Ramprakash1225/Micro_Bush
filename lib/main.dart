@@ -12,7 +12,7 @@ import 'screens/login_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());    
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -30,7 +30,10 @@ class MyApp extends StatelessWidget {
         builder: (context, languageService, _) {
           // Initialize sample data on first load
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            final poService = Provider.of<PurchaseOrderService>(context, listen: false);
+            final poService = Provider.of<PurchaseOrderService>(
+              context,
+              listen: false,
+            );
             if (poService.purchaseOrders.isEmpty) {
               SampleDataService.initializeSampleData(poService);
             }
@@ -46,72 +49,98 @@ class MyApp extends StatelessWidget {
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [
-              Locale('en', ''),
-              Locale('ta', ''),
-            ],
+            supportedLocales: const [Locale('en', ''), Locale('ta', '')],
             theme: ThemeData(
               useMaterial3: true,
               colorScheme: ColorScheme.fromSeed(
                 seedColor: Branding.primaryColor,
                 brightness: Brightness.light,
                 primary: Branding.primaryColor,
+                onPrimary: Colors.white,
                 secondary: Branding.secondaryColor,
+                onSecondary: Colors.white,
                 error: Branding.errorColor,
                 surface: Branding.surfaceColor,
+                onSurface: Branding.textPrimary,
+                surfaceContainerHighest: const Color(
+                  0xFFF0F2F5,
+                ), // Light grey for highlighted areas
               ),
               cardTheme: CardThemeData(
-                elevation: 2,
+                elevation: 4,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(Branding.radiusM),
+                  borderRadius: BorderRadius.circular(Branding.radiusL),
                 ),
-                shadowColor: Colors.black.withValues(alpha: 0.1),
+                color: Branding.surfaceColor,
+                shadowColor: Branding.primaryColor.withValues(alpha: 0.15),
+                margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
               ),
               inputDecorationTheme: InputDecorationTheme(
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(Branding.radiusS),
+                  borderRadius: BorderRadius.circular(Branding.radiusM),
+                  borderSide: const BorderSide(color: Branding.secondaryColor),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Branding.radiusM),
+                  borderSide: BorderSide(
+                    color: Branding.secondaryColor.withValues(alpha: 0.3),
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(Branding.radiusM),
+                  borderSide: const BorderSide(
+                    color: Branding.primaryColor,
+                    width: 2,
+                  ),
                 ),
                 filled: true,
+                fillColor: Branding.surfaceColor,
                 contentPadding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
+                  horizontal: 20,
+                  vertical: 18,
                 ),
+                labelStyle: const TextStyle(color: Branding.textSecondary),
               ),
               filledButtonTheme: FilledButtonThemeData(
                 style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
+                    horizontal: 28,
+                    vertical: 18,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(Branding.radiusS),
+                    borderRadius: BorderRadius.circular(Branding.radiusL),
                   ),
-                  elevation: 0,
+                  elevation: 2,
+                  shadowColor: Branding.primaryColor.withValues(alpha: 0.3),
                 ),
               ),
               elevatedButtonTheme: ElevatedButtonThemeData(
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 24,
-                    vertical: 16,
+                    horizontal: 28,
+                    vertical: 18,
                   ),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(Branding.radiusS),
+                    borderRadius: BorderRadius.circular(Branding.radiusL),
                   ),
-                  elevation: 2,
+                  elevation: 3,
+                  shadowColor: Branding.primaryColor.withValues(alpha: 0.2),
                 ),
               ),
-              appBarTheme: AppBarTheme(
-                centerTitle: false,
+              appBarTheme: const AppBarTheme(
+                centerTitle: true,
                 elevation: 0,
                 backgroundColor: Branding.primaryColor,
                 foregroundColor: Colors.white,
-                iconTheme: const IconThemeData(color: Colors.white),
-                titleTextStyle: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                iconTheme: IconThemeData(color: Colors.white),
+                titleTextStyle: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w600,
+                  letterSpacing: 0.5,
                   color: Colors.white,
                 ),
+                scrolledUnderElevation: 4,
+                shadowColor: Colors.black26,
               ),
               scaffoldBackgroundColor: Branding.backgroundColor,
               fontFamily: 'Roboto',
@@ -124,7 +153,10 @@ class MyApp extends StatelessWidget {
             onGenerateRoute: (settings) {
               // Check if user is logged in for protected routes
               if (settings.name == '/home') {
-                final userService = Provider.of<UserService>(context, listen: false);
+                final userService = Provider.of<UserService>(
+                  context,
+                  listen: false,
+                );
                 if (userService.currentUser == null) {
                   return MaterialPageRoute(
                     builder: (context) => const LoginScreen(),

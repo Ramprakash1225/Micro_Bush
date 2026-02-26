@@ -1,17 +1,10 @@
-import 'package:uuid/uuid.dart';
-import '../models/purchase_order.dart';
-import '../models/production_stage.dart';
 import '../services/purchase_order_service.dart';
 import '../services/logging_service.dart';
 
 class SampleDataService {
-  static const _uuid = Uuid();
-
   static void initializeSampleData(PurchaseOrderService poService) {
     try {
       LoggingService.info('Initializing sample data');
-
-      final now = DateTime.now();
 
       final samplePOs = [
         // PurchaseOrder(
