@@ -254,6 +254,9 @@ class AppLocalizationsTa extends AppLocalizations {
   String get downloadQRCode => 'QR குறியீட்டை பதிவிறக்க';
 
   @override
+  String get printQRCode => 'QR குறியீட்டை அச்சிடு';
+
+  @override
   String get qrCodeDownloaded => 'QR குறியீடு வெற்றிகரமாக பதிவிறக்கப்பட்டது!';
 
   @override
@@ -330,6 +333,18 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get rejectionDetails => 'நிராகரிப்பு விவரங்கள்';
+
+  @override
+  String get uploadImage => 'படம் பதிவேற்று';
+
+  @override
+  String get takePhoto => 'படம் எடு';
+
+  @override
+  String get pickFromGallery => 'கேலரி';
+
+  @override
+  String get rejectionImage => 'நிராகரிப்பு படம்';
 
   @override
   String get remainingQuantity => 'மீதமுள்ள அளவு';

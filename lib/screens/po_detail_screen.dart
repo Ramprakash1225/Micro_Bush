@@ -1,6 +1,9 @@
+import 'dart:convert';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'package:image_picker/image_picker.dart';
 import '../l10n/app_localizations.dart';
 import '../models/purchase_order.dart';
 import '../models/production_stage.dart';
@@ -728,6 +731,26 @@ class PODetailScreen extends StatelessWidget {
             '${record.rejectedQuantity}',
             Icons.cancel,
           ),
+          if (record.rejectionImageBase64 != null &&
+              record.rejectionImageBase64!.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Text(
+              l10n.rejectionImage,
+              style: theme.textTheme.labelMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            const SizedBox(height: 6),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.memory(
+                base64Decode(record.rejectionImageBase64!),
+                height: 140,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ],
           if (record.movedToStage != null) ...[
             const SizedBox(height: 8),
             _buildRejectionDetailRow(
@@ -785,6 +808,20 @@ class _NormalUserQuantityInputState extends State<_NormalUserQuantityInput> {
   final _rejectedQuantityController = TextEditingController();
   final _inspectedByController = TextEditingController();
   final _operatorSupplierController = TextEditingController();
+  Uint8List? _rejectionImageBytes;
+  static final _imagePicker = ImagePicker();
+
+  Future<void> _pickRejectionImage(ImageSource source) async {
+    final picked = await _imagePicker.pickImage(
+      source: source,
+      maxWidth: 1200,
+      imageQuality: 85,
+    );
+    if (picked != null && mounted) {
+      final bytes = await picked.readAsBytes();
+      setState(() => _rejectionImageBytes = bytes);
+    }
+  }
 
   int? _getAcceptQuantity() {
     final value = _acceptQuantityController.text.trim();
@@ -867,6 +904,10 @@ class _NormalUserQuantityInputState extends State<_NormalUserQuantityInput> {
       final inspectedBy = _inspectedByController.text.trim();
       final operatorSupplier = _operatorSupplierController.text.trim();
 
+      final imageBase64 = _rejectionImageBytes != null
+          ? base64Encode(_rejectionImageBytes!)
+          : null;
+
       // Update status to next stage and save rejected quantity with inspection details
       poService.updatePurchaseOrderStatus(
         widget.po.id,
@@ -879,6 +920,7 @@ class _NormalUserQuantityInputState extends State<_NormalUserQuantityInput> {
             : null,
         rejectedAtStage:
             widget.po.currentStatus, // Current stage when rejection happened
+        rejectionImageBase64: imageBase64,
       );
 
       // Log the quantities
@@ -904,6 +946,7 @@ class _NormalUserQuantityInputState extends State<_NormalUserQuantityInput> {
       _rejectedQuantityController.clear();
       _inspectedByController.clear();
       _operatorSupplierController.clear();
+      setState(() => _rejectionImageBytes = null);
     } catch (e, stackTrace) {
       LoggingService.error('Error submitting quantities', e, stackTrace);
       ErrorMessages.showErrorSnackBar(context, l10n.enterCorrectValues);
@@ -913,6 +956,7 @@ class _NormalUserQuantityInputState extends State<_NormalUserQuantityInput> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final theme = Theme.of(context);
 
     return Form(
       key: _formKey,
@@ -970,7 +1014,57 @@ class _NormalUserQuantityInputState extends State<_NormalUserQuantityInput> {
               return null;
             },
           ),
-
+          const SizedBox(height: 16),
+          // Image upload for rejection (Gallery + Camera)
+          Text(
+            l10n.uploadImage,
+            style: theme.textTheme.labelLarge?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+          const SizedBox(height: 8),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => _pickRejectionImage(ImageSource.gallery),
+                  icon: const Icon(Icons.photo_library),
+                  label: Text(l10n.pickFromGallery),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: () => _pickRejectionImage(ImageSource.camera),
+                  icon: const Icon(Icons.camera_alt),
+                  label: Text(l10n.takePhoto),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (_rejectionImageBytes != null) ...[
+            const SizedBox(height: 12),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.memory(
+                _rejectionImageBytes!,
+                height: 120,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 4),
+            TextButton.icon(
+              onPressed: () => setState(() => _rejectionImageBytes = null),
+              icon: const Icon(Icons.close, size: 18),
+              label: const Text('Remove image'),
+            ),
+          ],
           const SizedBox(height: 16),
           TextFormField(
             controller: _inspectedByController,

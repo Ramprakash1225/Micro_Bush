@@ -29,6 +29,7 @@ class PurchaseOrderService extends ChangeNotifier {
     String? inspectedBy,
     String? operatorSupplierName,
     ProductionStage? rejectedAtStage,
+    String? rejectionImageBase64,
   }) {
     try {
       final index = _purchaseOrders.indexWhere((po) => po.id == id);
@@ -46,6 +47,7 @@ class PurchaseOrderService extends ChangeNotifier {
             rejectedAtStage: rejectedAtStage,
             rejectedAt: DateTime.now(),
             movedToStage: newStatus,
+            rejectionImageBase64: rejectionImageBase64,
           );
           updatedRejectionRecords.add(rejectionRecord);
         }

@@ -112,6 +112,7 @@
   "enterPOId": "Enter PO ID",
   "searchPO": "Search PO",
   "downloadQRCode": "Download QR Code",
+  "printQRCode": "Print QR Code",
   "qrCodeDownloaded": "QR Code downloaded successfully!",
   "qrCodeSaved": "QR Code saved to: {path}",
   "@qrCodeSaved": {
@@ -148,6 +149,10 @@
   "pleaseEnterInspectedBy": "Please enter inspected by name",
   "pleaseEnterOperatorSupplier": "Please enter operator/supplier name",
   "rejectionDetails": "Rejection Details",
+  "uploadImage": "Upload Image",
+  "takePhoto": "Take Photo",
+  "pickFromGallery": "Gallery",
+  "rejectionImage": "Rejection Image",
   "remainingQuantity": "Remaining Quantity",
   "movedTo": "Moved To",
   "rejectedAt": "Rejected At"

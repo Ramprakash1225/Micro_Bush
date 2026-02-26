@@ -7,6 +7,8 @@ class RejectionRecord {
   final ProductionStage rejectedAtStage;
   final DateTime rejectedAt;
   final ProductionStage? movedToStage; // The stage it moved to after rejection
+  /// Base64-encoded image data (optional) for rejection evidence.
+  final String? rejectionImageBase64;
 
   RejectionRecord({
     required this.rejectedQuantity,
@@ -15,6 +17,7 @@ class RejectionRecord {
     required this.rejectedAtStage,
     required this.rejectedAt,
     this.movedToStage,
+    this.rejectionImageBase64,
   });
 
   RejectionRecord copyWith({
@@ -24,6 +27,7 @@ class RejectionRecord {
     ProductionStage? rejectedAtStage,
     DateTime? rejectedAt,
     ProductionStage? movedToStage,
+    String? rejectionImageBase64,
   }) {
     return RejectionRecord(
       rejectedQuantity: rejectedQuantity ?? this.rejectedQuantity,
@@ -32,6 +36,7 @@ class RejectionRecord {
       rejectedAtStage: rejectedAtStage ?? this.rejectedAtStage,
       rejectedAt: rejectedAt ?? this.rejectedAt,
       movedToStage: movedToStage ?? this.movedToStage,
+      rejectionImageBase64: rejectionImageBase64 ?? this.rejectionImageBase64,
     );
   }
 
@@ -43,6 +48,7 @@ class RejectionRecord {
       'rejectedAtStage': rejectedAtStage.name,
       'rejectedAt': rejectedAt.toIso8601String(),
       'movedToStage': movedToStage?.name,
+      'rejectionImageBase64': rejectionImageBase64,
     };
   }
 
@@ -59,6 +65,7 @@ class RejectionRecord {
       movedToStage: json['movedToStage'] != null
           ? ProductionStage.fromString(json['movedToStage'] as String)
           : null,
+      rejectionImageBase64: json['rejectionImageBase64'] as String?,
     );
   }
 }

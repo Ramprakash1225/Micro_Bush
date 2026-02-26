@@ -109,6 +109,7 @@
   "enterPOId": "PO ID உள்ளிடவும்",
   "searchPO": "PO தேட",
   "downloadQRCode": "QR குறியீட்டை பதிவிறக்க",
+  "printQRCode": "QR குறியீட்டை அச்சிடு",
   "qrCodeDownloaded": "QR குறியீடு வெற்றிகரமாக பதிவிறக்கப்பட்டது!",
   "qrCodeSaved": "QR குறியீடு சேமிக்கப்பட்டது: {path}",
   "@qrCodeSaved": {
@@ -145,6 +146,10 @@
   "pleaseEnterInspectedBy": "தயவுசெய்து பரிசோதித்தவரின் பெயரை உள்ளிடவும்",
   "pleaseEnterOperatorSupplier": "தயவுசெய்து ஆபரேட்டர்/சப்ளையர் பெயரை உள்ளிடவும்",
   "rejectionDetails": "நிராகரிப்பு விவரங்கள்",
+  "uploadImage": "படம் பதிவேற்று",
+  "takePhoto": "படம் எடு",
+  "pickFromGallery": "கேலரி",
+  "rejectionImage": "நிராகரிப்பு படம்",
   "remainingQuantity": "மீதமுள்ள அளவு",
   "movedTo": "நகர்த்தப்பட்டது",
   "rejectedAt": "நிராகரிக்கப்பட்ட நேரம்"

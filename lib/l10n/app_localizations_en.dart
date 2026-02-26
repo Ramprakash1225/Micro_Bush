@@ -250,6 +250,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get downloadQRCode => 'Download QR Code';
 
   @override
+  String get printQRCode => 'Print QR Code';
+
+  @override
   String get qrCodeDownloaded => 'QR Code downloaded successfully!';
 
   @override
@@ -323,6 +326,18 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rejectionDetails => 'Rejection Details';
+
+  @override
+  String get uploadImage => 'Upload Image';
+
+  @override
+  String get takePhoto => 'Take Photo';
+
+  @override
+  String get pickFromGallery => 'Gallery';
+
+  @override
+  String get rejectionImage => 'Rejection Image';
 
   @override
   String get remainingQuantity => 'Remaining Quantity';

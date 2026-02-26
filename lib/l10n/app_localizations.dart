@@ -542,6 +542,12 @@ abstract class AppLocalizations {
   /// **'Download QR Code'**
   String get downloadQRCode;
 
+  /// No description provided for @printQRCode.
+  ///
+  /// In en, this message translates to:
+  /// **'Print QR Code'**
+  String get printQRCode;
+
   /// No description provided for @qrCodeDownloaded.
   ///
   /// In en, this message translates to:
@@ -673,6 +679,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Rejection Details'**
   String get rejectionDetails;
+
+  /// No description provided for @uploadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Image'**
+  String get uploadImage;
+
+  /// No description provided for @takePhoto.
+  ///
+  /// In en, this message translates to:
+  /// **'Take Photo'**
+  String get takePhoto;
+
+  /// No description provided for @pickFromGallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get pickFromGallery;
+
+  /// No description provided for @rejectionImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Rejection Image'**
+  String get rejectionImage;
 
   /// No description provided for @remainingQuantity.
   ///

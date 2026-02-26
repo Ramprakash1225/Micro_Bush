@@ -8,6 +8,9 @@ import 'package:universal_html/html.dart' as html_web;
 import 'dart:io' show File;
 import 'package:path_provider/path_provider.dart';
 import 'package:intl/intl.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 import '../constants/branding.dart';
 import '../l10n/app_localizations.dart';
 import '../models/purchase_order.dart';
@@ -26,6 +29,7 @@ class QRCodeDialog extends StatefulWidget {
 class _QRCodeDialogState extends State<QRCodeDialog> {
   final GlobalKey _qrKey = GlobalKey();
   bool _isDownloading = false;
+  bool _isPrinting = false;
 
   Future<Uint8List?> _captureQRCode() async {
     try {
@@ -119,6 +123,120 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
         });
       }
     }
+  }
+
+  Future<void> _printQRCode() async {
+    if (!mounted) return;
+
+    setState(() {
+      _isPrinting = true;
+    });
+
+    try {
+      final l10n = AppLocalizations.of(context)!;
+      await Future.delayed(const Duration(milliseconds: 100));
+
+      final imageBytes = await _captureQRCode();
+      if (imageBytes == null || !mounted) {
+        if (mounted) {
+          ErrorMessages.showErrorSnackBar(context, l10n.downloadFailed);
+        }
+        return;
+      }
+
+      final po = widget.purchaseOrder;
+      final dateStr = DateFormat('yyyy-MM-dd').format(po.deliveryDate);
+
+      final pdf = pw.Document();
+      pdf.addPage(
+        pw.Page(
+          pageFormat: PdfPageFormat.a4,
+          margin: const pw.EdgeInsets.all(24),
+          build: (pw.Context context) {
+            return pw.Center(
+              child: pw.Column(
+                mainAxisSize: pw.MainAxisSize.min,
+                children: [
+                  pw.Text(
+                    l10n.qrCode,
+                    style: pw.TextStyle(
+                      fontSize: 20,
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.SizedBox(height: 16),
+                  pw.Row(
+                    mainAxisSize: pw.MainAxisSize.min,
+                    crossAxisAlignment: pw.CrossAxisAlignment.start,
+                    children: [
+                      pw.Image(
+                        pw.MemoryImage(imageBytes),
+                        width: 180,
+                        height: 180,
+                      ),
+                      pw.SizedBox(width: 24),
+                      pw.Column(
+                        crossAxisAlignment: pw.CrossAxisAlignment.start,
+                        mainAxisSize: pw.MainAxisSize.min,
+                        children: [
+                          pw.Text(
+                            l10n.poInformation,
+                            style: pw.TextStyle(
+                              fontSize: 14,
+                              fontWeight: pw.FontWeight.bold,
+                            ),
+                          ),
+                          pw.SizedBox(height: 8),
+                          _pdfInfoRow(l10n.poNumber, po.poNumber),
+                          _pdfInfoRow(l10n.partNumber, po.partNumber),
+                          _pdfInfoRow(
+                            l10n.productionQuantity,
+                            po.productionQuantity.toString(),
+                          ),
+                          _pdfInfoRow(l10n.deliveryDate, dateStr),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
+      );
+
+      final pdfBytes = await pdf.save();
+      await Printing.layoutPdf(
+        onLayout: (PdfPageFormat format) async => pdfBytes,
+      );
+
+      LoggingService.logUserAction(
+        'QR Code Printed',
+        details: {'poNumber': po.poNumber},
+      );
+    } catch (e, stackTrace) {
+      LoggingService.error('Error printing QR code', e, stackTrace);
+      if (mounted) {
+        final l10n = AppLocalizations.of(context)!;
+        ErrorMessages.showErrorSnackBar(context, l10n.downloadFailed);
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isPrinting = false;
+        });
+      }
+    }
+  }
+
+  pw.Widget _pdfInfoRow(String label, String value) {
+    return pw.Padding(
+      padding: const pw.EdgeInsets.only(bottom: 4),
+      child: pw.Text(
+        '$label: $value',
+        style: const pw.TextStyle(fontSize: 12),
+      ),
+    );
   }
 
   @override
@@ -366,6 +484,25 @@ class _QRCodeDialogState extends State<QRCodeDialog> {
                             )
                           : const Icon(Icons.download),
                       label: Text(l10n.downloadQRCode),
+                      style: OutlinedButton.styleFrom(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: Branding.spacingM,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: Branding.spacingM),
+                  Expanded(
+                    child: OutlinedButton.icon(
+                      onPressed: _isPrinting ? null : _printQRCode,
+                      icon: _isPrinting
+                          ? const SizedBox(
+                              width: 16,
+                              height: 16,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            )
+                          : const Icon(Icons.print),
+                      label: Text(l10n.printQRCode),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(
                           vertical: Branding.spacingM,
