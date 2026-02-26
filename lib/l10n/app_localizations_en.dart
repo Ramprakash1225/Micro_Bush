@@ -89,6 +89,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get chooseReportFormat => 'Choose report format:';
 
   @override
+  String get editBeforeDownload => 'Edit before download (Admin only)';
+
+  @override
+  String get downloadNow => 'Download';
+
+  @override
   String get generatingReport => 'Generating report...';
 
   @override

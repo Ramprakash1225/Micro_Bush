@@ -12,7 +12,7 @@ import 'screens/login_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MyApp());
+  runApp(const MyApp());    
 }
 
 class MyApp extends StatelessWidget {

@@ -36,6 +36,8 @@
     }
   },
   "chooseReportFormat": "Choose report format:",
+  "editBeforeDownload": "Edit before download (Admin only)",
+  "downloadNow": "Download",
   "generatingReport": "Generating report...",
   "reportSaved": "Report saved to: {path}",
   "@reportSaved": {

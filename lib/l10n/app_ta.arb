@@ -33,6 +33,8 @@
     }
   },
   "chooseReportFormat": "அறிக்கை வடிவத்தைத் தேர்ந்தெடுக்கவும்:",
+  "editBeforeDownload": "பதிவிறக்குவதற்கு முன் திருத்து (நிர்வாகம் மட்டும்)",
+  "downloadNow": "பதிவிறக்கு",
   "generatingReport": "அறிக்கை உருவாக்கப்படுகிறது...",
   "reportSaved": "அறிக்கை சேமிக்கப்பட்டது: {path}",
   "@reportSaved": {

@@ -223,13 +223,13 @@ class POListScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
+      builder: (dialogContext) => AlertDialog(
         title: Text(l10n.downloadReport),
         content: Text(l10n.chooseReportFormat),
         actions: [
           TextButton.icon(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               _generateReport(context, 'csv');
             },
             icon: const Icon(Icons.table_chart),
@@ -237,7 +237,7 @@ class POListScreen extends StatelessWidget {
           ),
           TextButton.icon(
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.pop(dialogContext);
               _generateReport(context, 'pdf');
             },
             icon: const Icon(Icons.picture_as_pdf),
@@ -251,6 +251,7 @@ class POListScreen extends StatelessWidget {
   void _generateReport(BuildContext context, String format) async {
     final l10n = AppLocalizations.of(context)!;
     final poService = Provider.of<PurchaseOrderService>(context, listen: false);
+    final userService = Provider.of<UserService>(context, listen: false);
     final reportService = ReportService();
 
     if (poService.purchaseOrders.isEmpty) {
@@ -263,7 +264,10 @@ class POListScreen extends StatelessWidget {
 
       final filePath = format == 'csv'
           ? await reportService.generateCSVReport(poService.purchaseOrders)
-          : await reportService.generatePDFReport(poService.purchaseOrders);
+          : await reportService.generatePDFReport(
+              poService.purchaseOrders,
+              previewBeforeDownload: userService.isMasterUser,
+            );
 
       if (context.mounted) {
         ErrorMessages.showSuccessSnackBar(context, l10n.reportSaved(filePath));

@@ -4,7 +4,7 @@ import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'dart:convert' show utf8;
+import 'dart:convert' show utf8, base64Decode;
 import '../models/purchase_order.dart';
 import 'logging_service.dart';
 
@@ -71,7 +71,10 @@ class ReportService {
     }
   }
 
-  Future<String> generatePDFReport(List<PurchaseOrder> orders) async {
+  Future<String> generatePDFReport(
+    List<PurchaseOrder> orders, {
+    bool previewBeforeDownload = false,
+  }) async {
     try {
       LoggingService.info('Generating PDF report for ${orders.length} orders');
       final pdf = pw.Document();
@@ -113,19 +116,44 @@ class ReportService {
                       _buildTableCell('Prod Qty', isHeader: true),
                       _buildTableCell('Delivery Date', isHeader: true),
                       _buildTableCell('Current Status', isHeader: true),
+                      _buildTableCell('Image', isHeader: true),
                     ],
                   ),
-                  ...orders.map((order) => pw.TableRow(
-                        children: [
-                          _buildTableCell(order.poNumber),
-                          _buildTableCell(_dateFormat.format(order.poDate)),
-                          _buildTableCell(order.partNumber),
-                          _buildTableCell(order.totalQuantity.toString()),
-                          _buildTableCell(order.productionQuantity.toString()),
-                          _buildTableCell(_dateFormat.format(order.deliveryDate)),
-                          _buildTableCell(order.currentStatus.displayName),
-                        ],
-                      )),
+                  ...orders.map((order) {
+                    String? firstImage;
+                    for (final r in order.rejectionRecords) {
+                      if (r.rejectionImageBase64 != null &&
+                          r.rejectionImageBase64!.isNotEmpty) {
+                        firstImage = r.rejectionImageBase64;
+                        break;
+                      }
+                    }
+                    return pw.TableRow(
+                      children: [
+                        _buildTableCell(order.poNumber),
+                        _buildTableCell(_dateFormat.format(order.poDate)),
+                        _buildTableCell(order.partNumber),
+                        _buildTableCell(order.totalQuantity.toString()),
+                        _buildTableCell(order.productionQuantity.toString()),
+                        _buildTableCell(_dateFormat.format(order.deliveryDate)),
+                        _buildTableCell(order.currentStatus.displayName),
+                        firstImage != null
+                            ? pw.Padding(
+                                padding: const pw.EdgeInsets.all(4),
+                                child: pw.Image(
+                                  pw.MemoryImage(base64Decode(firstImage)),
+                                  width: 80,
+                                  height: 60,
+                                  fit: pw.BoxFit.cover,
+                                ),
+                              )
+                            : pw.Padding(
+                                padding: const pw.EdgeInsets.all(8),
+                                child: pw.SizedBox.shrink(),
+                              ),
+                      ],
+                    );
+                  }),
                 ],
               ),
             ];
@@ -136,15 +164,27 @@ class ReportService {
       final pdfBytes = await pdf.save();
       final filename = 'po_report_${DateTime.now().millisecondsSinceEpoch}.pdf';
 
-      if (kIsWeb) {
-        // For web, use printing package to show/share PDF
+      if (previewBeforeDownload) {
+        // Admin: open preview so they can edit/review before saving or printing
         await Printing.layoutPdf(
           onLayout: (PdfPageFormat format) async => pdfBytes,
         );
-        LoggingService.info('PDF report opened successfully');
-        return 'PDF opened in viewer';
+        LoggingService.info('PDF report opened in viewer for review');
+        return 'PDF opened in viewer — save or print when ready';
+      }
+
+      if (kIsWeb) {
+        // Non-admin web: direct download
+        final blob = html_web.Blob([pdfBytes]);
+        final url = html_web.Url.createObjectUrlFromBlob(blob);
+        html_web.AnchorElement(href: url)
+          ..setAttribute('download', filename)
+          ..click();
+        html_web.Url.revokeObjectUrl(url);
+        LoggingService.info('PDF report downloaded');
+        return 'Downloaded: $filename';
       } else {
-        // For mobile/desktop, save to file system
+        // Non-admin desktop/mobile: save to file system
         final directory = await getApplicationDocumentsDirectory();
         final file = File('${directory.path}/$filename');
         await file.writeAsBytes(pdfBytes);

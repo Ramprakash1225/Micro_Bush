@@ -90,6 +90,13 @@ class AppLocalizationsTa extends AppLocalizations {
   String get chooseReportFormat => 'அறிக்கை வடிவத்தைத் தேர்ந்தெடுக்கவும்:';
 
   @override
+  String get editBeforeDownload =>
+      'பதிவிறக்குவதற்கு முன் திருத்து (நிர்வாகம் மட்டும்)';
+
+  @override
+  String get downloadNow => 'பதிவிறக்கு';
+
+  @override
   String get generatingReport => 'அறிக்கை உருவாக்கப்படுகிறது...';
 
   @override

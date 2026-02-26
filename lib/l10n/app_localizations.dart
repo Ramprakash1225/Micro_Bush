@@ -254,6 +254,18 @@ abstract class AppLocalizations {
   /// **'Choose report format:'**
   String get chooseReportFormat;
 
+  /// No description provided for @editBeforeDownload.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit before download (Admin only)'**
+  String get editBeforeDownload;
+
+  /// No description provided for @downloadNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Download'**
+  String get downloadNow;
+
   /// No description provided for @generatingReport.
   ///
   /// In en, this message translates to:
