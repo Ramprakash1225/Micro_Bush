@@ -56,12 +56,14 @@ class MyApp extends StatelessWidget {
                 seedColor: Branding.primaryColor,
                 brightness: Brightness.light,
                 primary: Branding.primaryColor,
-                onPrimary: Colors.white,
+                onPrimary: const Color(0xFF1A3A5C), // Dark text on pale primary
                 secondary: Branding.secondaryColor,
                 onSecondary: Colors.white,
                 error: Branding.errorColor,
                 surface: Branding.surfaceColor,
                 onSurface: Branding.textPrimary,
+                primaryContainer: Branding.primaryColor,
+                onPrimaryContainer: const Color(0xFF1A3A5C),
                 surfaceContainerHighest: const Color(
                   0xFFF0F2F5,
                 ), // Light grey for highlighted areas
@@ -127,13 +129,13 @@ class MyApp extends StatelessWidget {
                   shadowColor: Branding.primaryColor.withValues(alpha: 0.2),
                 ),
               ),
-              appBarTheme: const AppBarTheme(
+              appBarTheme: AppBarTheme(
                 centerTitle: true,
                 elevation: 0,
-                backgroundColor: Branding.primaryColor,
+                backgroundColor: Branding.primaryColorDark,
                 foregroundColor: Colors.white,
-                iconTheme: IconThemeData(color: Colors.white),
-                titleTextStyle: TextStyle(
+                iconTheme: const IconThemeData(color: Colors.white),
+                titleTextStyle: const TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.5,

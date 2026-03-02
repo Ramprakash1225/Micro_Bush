@@ -14,6 +14,7 @@ import '../services/user_service.dart';
 import '../services/logging_service.dart';
 import '../utils/error_messages.dart';
 import '../widgets/qr_code_dialog.dart';
+import '../widgets/logo_watermark.dart';
 
 class PODetailScreen extends StatelessWidget {
   final String poId;
@@ -31,7 +32,12 @@ class PODetailScreen extends StatelessWidget {
         if (po == null) {
           return Scaffold(
             appBar: AppBar(title: Text(l10n.poDetails)),
-            body: Center(child: Text(l10n.notFoundError)),
+            body: Stack(
+              children: [
+                const LogoWatermark(),
+                Center(child: Text(l10n.notFoundError)),
+              ],
+            ),
           );
         }
 
@@ -55,9 +61,12 @@ class PODetailScreen extends StatelessWidget {
               ),
             ],
           ),
-          body: SingleChildScrollView(
-            padding: const EdgeInsets.all(24.0),
-            child: Column(
+          body: Stack(
+            children: [
+              const LogoWatermark(),
+              SingleChildScrollView(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 // PO Information Card
@@ -357,6 +366,8 @@ class PODetailScreen extends StatelessWidget {
               ],
             ),
           ),
+      ],
+    ),
         );
       },
     );
@@ -1015,7 +1026,6 @@ class _NormalUserQuantityInputState extends State<_NormalUserQuantityInput> {
             },
           ),
           const SizedBox(height: 16),
-          // Image upload for rejection (Gallery + Camera)
           Text(
             l10n.uploadImage,
             style: theme.textTheme.labelLarge?.copyWith(

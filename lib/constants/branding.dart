@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 class Branding {
-  // Primary brand colors
-  static const Color primaryColor = Color(0xFF0662A3); // Blue
+  // Primary brand colors (match top-right Total POs badge pale blue)
+  static const Color primaryColor = Color(0xFFD6E7FF); // Pale blue
+  static const Color primaryColorDark = Color(0xFF5B9BD5); // Darker blue for app bar (contrast)
   static const Color secondaryColor = Color(0xFF979A9F); // Grey
-  static const Color accentColor = Color(0xFF0662A3); // Blue
+  static const Color accentColor = Color(0xFFD6E7FF); // Pale blue
   static const Color successColor = Color(0xFF28A745);
   static const Color warningColor = Color(0xFFFFC107);
   static const Color errorColor = Color(0xFFDC3545);
@@ -22,14 +23,15 @@ class Branding {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFF0662A3),
-      Color(0xFF044D82),
-    ], // Blue to slightly darker blue
+      Color(0xFFD6E7FF),
+      Color(0xFFB8D4F0),
+    ], // Pale blue gradient
   );
 
-  // Logo path
-  static const String logoPath = 'assets/logo/logo.png';
-  static const String logoIconPath = 'assets/logo/logo_icon.png';
+  // Logo paths (must match files under assets/logo/)
+  static const String logoPath = 'assets/logo/micro_bush_logo.png';
+  static const String logoIconPath = 'assets/logo/micro_bush_name.jpg';
+  static const String logoWatermarkPath = 'assets/logo/micro_bush_logo.png';
 
   // App name
   static const String appName = 'PrecisionFlow';

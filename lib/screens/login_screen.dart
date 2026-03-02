@@ -10,6 +10,7 @@ import '../services/logging_service.dart';
 import '../services/purchase_order_service.dart';
 import '../services/sample_data_service.dart';
 import '../widgets/language_toggle.dart';
+import '../widgets/logo_watermark.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -110,15 +111,19 @@ class _LoginScreenState extends State<LoginScreen> {
     final l10n = AppLocalizations.of(context)!;
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Branding.primaryColor, Branding.secondaryColor],
+      body: Stack(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Branding.primaryColor, Branding.secondaryColor],
+              ),
+            ),
           ),
-        ),
-        child: SafeArea(
+          const LogoWatermark(),
+          SafeArea(
           child: Center(
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(Branding.spacingXL),
@@ -301,7 +306,8 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-      ),
+      ],
+    ),
     );
   }
 

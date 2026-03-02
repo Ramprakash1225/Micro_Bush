@@ -7,10 +7,7 @@ import 'package:flutter/foundation.dart' show kIsWeb;
 import 'dart:convert' show utf8, base64Decode;
 import '../models/purchase_order.dart';
 import 'logging_service.dart';
-
-// Conditional imports for web vs non-web
-import 'dart:io' show File;
-import 'package:path_provider/path_provider.dart';
+import 'report_service_io.dart' if (dart.library.html) 'report_service_stub.dart' as file_io;
 import 'package:universal_html/html.dart' as html_web;
 
 class ReportService {
@@ -59,11 +56,9 @@ class ReportService {
         return 'Downloaded: $filename';
       } else {
         // For mobile/desktop, save to file system
-        final directory = await getApplicationDocumentsDirectory();
-        final file = File('${directory.path}/$filename');
-        await file.writeAsString(csv);
-        LoggingService.info('CSV report generated successfully: ${file.path}');
-        return file.path;
+        final path = await file_io.saveCsvToFile(csv, filename);
+        LoggingService.info('CSV report generated successfully: $path');
+        return path;
       }
     } catch (e, stackTrace) {
       LoggingService.error('Error generating CSV report', e, stackTrace);
@@ -187,11 +182,9 @@ class ReportService {
         return 'Downloaded: $filename';
       } else {
         // Non-admin desktop/mobile: save to file system
-        final directory = await getApplicationDocumentsDirectory();
-        final file = File('${directory.path}/$filename');
-        await file.writeAsBytes(pdfBytes);
-        LoggingService.info('PDF report generated successfully: ${file.path}');
-        return file.path;
+        final path = await file_io.savePdfBytesToFile(pdfBytes, filename);
+        LoggingService.info('PDF report generated successfully: $path');
+        return path;
       }
     } catch (e, stackTrace) {
       LoggingService.error('Error generating PDF report', e, stackTrace);

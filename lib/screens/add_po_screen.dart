@@ -10,6 +10,7 @@ import '../utils/error_messages.dart';
 import '../utils/security_utils.dart';
 import '../constants/branding.dart';
 import '../widgets/qr_code_dialog.dart';
+import '../widgets/logo_watermark.dart';
 
 class AddPOScreen extends StatefulWidget {
   const AddPOScreen({super.key});
@@ -147,9 +148,12 @@ class _AddPOScreenState extends State<AddPOScreen> {
         title: Text(l10n.addPurchaseOrder),
         elevation: 0,
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(Branding.spacingL),
-        child: Form(
+      body: Stack(
+        children: [
+          const LogoWatermark(),
+          SingleChildScrollView(
+            padding: const EdgeInsets.all(Branding.spacingL),
+            child: Form(
           key: _formKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -298,6 +302,8 @@ class _AddPOScreenState extends State<AddPOScreen> {
           ),
         ),
       ),
+      ],
+    ),
     );
   }
 }

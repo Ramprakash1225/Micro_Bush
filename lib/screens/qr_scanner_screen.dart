@@ -8,6 +8,7 @@ import '../utils/error_messages.dart';
 import '../constants/branding.dart';
 import 'po_detail_screen.dart';
 import '../services/logging_service.dart';
+import '../widgets/logo_watermark.dart';
 
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({super.key});
@@ -101,9 +102,12 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
           title: Text(l10n.scanQRCode),
           elevation: 0,
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(Branding.spacingXL),
-          child: Column(
+        body: Stack(
+          children: [
+            const LogoWatermark(),
+            Padding(
+              padding: const EdgeInsets.all(Branding.spacingXL),
+              child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(
@@ -159,7 +163,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                 },
               ),
             ],
-          ),
+              ),
+            ),
+          ],
         ),
       );
     }
@@ -171,6 +177,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       ),
       body: Stack(
         children: [
+          const LogoWatermark(),
           MobileScanner(
             controller: _controller,
             onDetect: _handleBarcode,

@@ -11,6 +11,7 @@ import 'po_detail_screen.dart';
 import 'qr_scanner_screen.dart';
 import '../widgets/po_card.dart';
 import '../widgets/language_toggle.dart';
+import '../widgets/logo_watermark.dart';
 
 class POListScreen extends StatelessWidget {
   const POListScreen({super.key});
@@ -27,7 +28,7 @@ class POListScreen extends StatelessWidget {
         title: Row(
           children: [
             Image.asset(
-              'assets/logo/micro_bush_name.jpg',
+              'assets/logo/micro_bush_name1.png',
               height: 50,
               fit: BoxFit.contain,
             ),
@@ -67,9 +68,12 @@ class POListScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: Column(
+      body: Stack(
         children: [
-          Container(
+          const LogoWatermark(),
+          Column(
+            children: [
+              Container(
             padding: const EdgeInsets.all(Branding.spacingL),
             decoration: BoxDecoration(
               color: theme.colorScheme.surface,
@@ -201,7 +205,9 @@ class POListScreen extends StatelessWidget {
                   ),
           ),
         ],
-      ),
+        ),
+      ],
+    ),
       floatingActionButton: userService.isMasterUser
           ? FloatingActionButton.extended(
               onPressed: () {
