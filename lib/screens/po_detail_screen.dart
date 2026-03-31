@@ -9,11 +9,15 @@ import '../models/purchase_order.dart';
 import '../models/production_stage.dart';
 import '../models/user_role.dart';
 import '../models/rejection_record.dart';
+import '../models/bush_spec_model.dart';
+import '../models/drawing_access_model.dart';
 import '../services/purchase_order_service.dart';
 import '../services/user_service.dart';
 import '../services/logging_service.dart';
+import 'technical_drawing_screen.dart';
 import '../utils/error_messages.dart';
 import '../widgets/qr_code_dialog.dart';
+import '../widgets/drawing_unavailable_sheet.dart';
 import '../widgets/logo_watermark.dart';
 
 class PODetailScreen extends StatelessWidget {
@@ -354,6 +358,7 @@ class PODetailScreen extends StatelessWidget {
                           final isCurrent = po.currentStatus == stage;
                           return _buildStageTimelineItem(
                             context,
+                            po,
                             stage,
                             isCompleted,
                             isCurrent,
@@ -569,6 +574,7 @@ class PODetailScreen extends StatelessWidget {
 
   Widget _buildStageTimelineItem(
     BuildContext context,
+    PurchaseOrder po,
     ProductionStage stage,
     bool isCompleted,
     bool isCurrent,
@@ -579,45 +585,58 @@ class PODetailScreen extends StatelessWidget {
         : isCurrent
         ? theme.colorScheme.primary
         : theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.3);
+    final isDrawingStage = stage == ProductionStage.turning || stage == ProductionStage.milling;
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        children: [
-          Container(
-            width: 24,
-            height: 24,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: color,
-              border: Border.all(color: color, width: 2),
+        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
+        child: Row(
+          children: [
+            Container(
+              width: 24,
+              height: 24,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: color,
+                border: Border.all(color: color, width: 2),
+              ),
+              child: isCompleted
+                  ? Icon(Icons.check, size: 16, color: Colors.white)
+                  : isCurrent
+                  ? Icon(
+                      Icons.radio_button_checked,
+                      size: 16,
+                      color: Colors.white,
+                    )
+                  : null,
             ),
-            child: isCompleted
-                ? Icon(Icons.check, size: 16, color: Colors.white)
-                : isCurrent
-                ? Icon(
-                    Icons.radio_button_checked,
-                    size: 16,
-                    color: Colors.white,
-                  )
-                : null,
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Text(
-              stage.displayName,
-              style: theme.textTheme.bodyLarge?.copyWith(
-                color: isCompleted || isCurrent
-                    ? theme.colorScheme.onSurface
-                    : theme.colorScheme.onSurfaceVariant,
-                fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+            const SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                stage.displayName,
+                style: theme.textTheme.bodyLarge?.copyWith(
+                  color: isCompleted || isCurrent
+                      ? theme.colorScheme.onSurface
+                      : theme.colorScheme.onSurfaceVariant,
+                  fontWeight: isCurrent ? FontWeight.bold : FontWeight.normal,
+                ),
               ),
             ),
-          ),
-        ],
-      ),
+            const SizedBox(width: 8),
+            if (isDrawingStage && (isCurrent || isCompleted))
+              _TechDrawingButton(
+                stageName: stage.displayName,
+                poNumber: po.poNumber,
+              ),
+            Icon(
+              Icons.open_in_new,
+              size: 18,
+              color: theme.colorScheme.onSurfaceVariant.withValues(alpha: 0.75),
+            ),
+          ],
+        ),
     );
   }
+
 
   bool _isStageCompleted(ProductionStage current, ProductionStage stage) {
     final stages = ProductionStage.values;
@@ -802,6 +821,112 @@ class PODetailScreen extends StatelessWidget {
     );
   }
 }
+
+class _TechDrawingButton extends StatelessWidget {
+  final String stageName;
+  final String poNumber;
+
+  const _TechDrawingButton({
+    required this.stageName,
+    required this.poNumber,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 6),
+      child: Tooltip(
+        message: 'View Technical Drawing',
+        decoration: BoxDecoration(
+          color: const Color(0xFF050D1A),
+          borderRadius: BorderRadius.circular(4),
+          border: Border.all(color: const Color(0xFF00E5FF).withValues(alpha: 0.5)),
+        ),
+        textStyle: const TextStyle(
+          color: Color(0xFF00E5FF),
+          fontSize: 11,
+          fontFamily: 'monospace',
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(6),
+          onTap: () => _handleTap(context),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+            decoration: BoxDecoration(
+              color: const Color(0xFF050D1A),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(
+                color: const Color(0xFF00E5FF).withValues(alpha: 0.55),
+                width: 1,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: const Color(0xFF00E5FF).withValues(alpha: 0.15),
+                  blurRadius: 8,
+                ),
+              ],
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(
+                  Icons.engineering_outlined,
+                  color: Color(0xFF00E5FF),
+                  size: 16,
+                ),
+                const SizedBox(width: 5),
+                Text(
+                  stageName == 'Milling' ? 'VIEW MILLING IMAGE' : 'VIEW TURNING IMAGE',
+                  style: const TextStyle(
+                    fontFamily: 'monospace',
+                    color: Color(0xFF00E5FF),
+                    fontSize: 9,
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 0.9,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _handleTap(BuildContext context) {
+    final match = DrawingAccessRepository.findMatch(poNumber);
+    if (match != null) {
+      final spec = BushSpecRepository.findByPartNumber(match.partSeries) ??
+          BushSpecRepository.getAll().first;
+      Navigator.push(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, anim, secondaryAnim) => TechnicalDrawingScreen(
+            operationType:
+                stageName == 'Milling' ? OperationType.milling : OperationType.turning,
+            spec: spec,
+            entry: match,
+          ),
+          transitionsBuilder: (context, anim, secondaryAnim, child) =>
+              FadeTransition(opacity: anim, child: child),
+          transitionDuration: const Duration(milliseconds: 400),
+        ),
+      );
+      return;
+    }
+
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (_) => DrawingUnavailableSheet(
+        stageName: stageName,
+        poNumber: poNumber,
+      ),
+    );
+  }
+}
+
 
 class _NormalUserQuantityInput extends StatefulWidget {
   final PurchaseOrder po;

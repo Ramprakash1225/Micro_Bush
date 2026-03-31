@@ -79,6 +79,7 @@ dependencies:
 
   # Image picker for rejection/upload (gallery + camera)
   image_picker: ^1.0.7
+  google_fonts: ^6.1.0
 
 dev_dependencies:
   flutter_test:
@@ -109,6 +110,8 @@ flutter:
   assets:
     - assets/logo/
     - assets/images/
+    - assets/technical_drawings/sf_bush_turning.png
+    - assets/technical_drawings/sf_bush_milling.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

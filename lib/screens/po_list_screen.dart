@@ -9,8 +9,8 @@ import '../constants/branding.dart';
 import 'add_po_screen.dart';
 import 'po_detail_screen.dart';
 import 'qr_scanner_screen.dart';
+import 'drawing_lookup_screen.dart';
 import '../widgets/po_card.dart';
-import '../widgets/language_toggle.dart';
 import '../widgets/logo_watermark.dart';
 
 class POListScreen extends StatelessWidget {
@@ -36,7 +36,18 @@ class POListScreen extends StatelessWidget {
         ),
         elevation: 0,
         actions: [
-          const LanguageToggle(),
+          IconButton(
+            icon: const Icon(Icons.image_search),
+            tooltip: 'Drawing Lookup',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DrawingLookupScreen(),
+                ),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.qr_code_scanner),
             tooltip: l10n.scanQRCode,

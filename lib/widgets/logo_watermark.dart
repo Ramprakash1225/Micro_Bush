@@ -20,7 +20,7 @@ class LogoWatermark extends StatelessWidget {
         width: logoSize,
         height: logoSize,
         fit: BoxFit.contain,
-        errorBuilder: (_, __, ___) => const SizedBox.shrink(),
+        errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
       ),
     );
 
