@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/purchase_order.dart';
 import '../models/production_stage.dart';
 import '../models/user_role.dart';
@@ -6,15 +9,68 @@ import '../models/rejection_record.dart';
 import 'logging_service.dart';
 
 class PurchaseOrderService extends ChangeNotifier {
+  static const String _purchaseOrdersKey = 'purchase_orders';
   final List<PurchaseOrder> _purchaseOrders = [];
 
   List<PurchaseOrder> get purchaseOrders => List.unmodifiable(_purchaseOrders);
+
+  PurchaseOrderService() {
+    _loadPurchaseOrdersFromStorage();
+  }
+
+  Future<void> _loadPurchaseOrdersFromStorage() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final rawData = prefs.getString(_purchaseOrdersKey);
+
+      if (rawData == null || rawData.isEmpty) {
+        return;
+      }
+
+      final decoded = jsonDecode(rawData) as List<dynamic>;
+      final loadedOrders = decoded
+          .map((item) => PurchaseOrder.fromJson(item as Map<String, dynamic>))
+          .toList();
+
+      _purchaseOrders
+        ..clear()
+        ..addAll(loadedOrders);
+      notifyListeners();
+      LoggingService.info('Purchase orders loaded from local storage', {
+        'count': loadedOrders.length,
+      });
+    } catch (e, stackTrace) {
+      LoggingService.error(
+        'Error loading purchase orders from local storage',
+        e,
+        stackTrace,
+      );
+    }
+  }
+
+  Future<void> _savePurchaseOrdersToStorage() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final jsonList = _purchaseOrders.map((po) => po.toJson()).toList();
+      await prefs.setString(_purchaseOrdersKey, jsonEncode(jsonList));
+      LoggingService.info('Purchase orders saved to local storage', {
+        'count': _purchaseOrders.length,
+      });
+    } catch (e, stackTrace) {
+      LoggingService.error(
+        'Error saving purchase orders to local storage',
+        e,
+        stackTrace,
+      );
+    }
+  }
 
   void addPurchaseOrder(PurchaseOrder po) {
     try {
       _purchaseOrders.add(po);
       LoggingService.info('Purchase Order added: ${po.poNumber}');
       notifyListeners();
+      _savePurchaseOrdersToStorage();
     } catch (e, stackTrace) {
       LoggingService.error('Error adding Purchase Order', e, stackTrace);
       rethrow;
@@ -68,6 +124,7 @@ class PurchaseOrderService extends ChangeNotifier {
           'Purchase Order status updated: ${_purchaseOrders[index].poNumber} from ${oldStatus.displayName} to ${newStatus.displayName}',
         );
         notifyListeners();
+        _savePurchaseOrdersToStorage();
       } else {
         LoggingService.warning('Purchase Order not found for status update: $id');
       }
@@ -98,6 +155,7 @@ class PurchaseOrderService extends ChangeNotifier {
       _purchaseOrders.removeWhere((po) => po.id == id);
       LoggingService.info('Purchase Order deleted: ${po?.poNumber ?? id}');
       notifyListeners();
+      _savePurchaseOrdersToStorage();
     } catch (e, stackTrace) {
       LoggingService.error('Error deleting Purchase Order', e, stackTrace);
       rethrow;

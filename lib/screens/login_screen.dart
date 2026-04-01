@@ -7,9 +7,6 @@ import '../models/user_role.dart';
 import '../utils/error_messages.dart';
 import '../constants/branding.dart';
 import '../services/logging_service.dart';
-import '../services/purchase_order_service.dart';
-import '../services/sample_data_service.dart';
-import '../widgets/language_toggle.dart';
 import '../widgets/logo_watermark.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -83,14 +80,6 @@ class _LoginScreenState extends State<LoginScreen> {
         // Navigate to PO list after short delay
         await Future.delayed(const Duration(milliseconds: 500));
         if (!mounted) return;
-        // Initialize sample data after login
-        final poService = Provider.of<PurchaseOrderService>(
-          context,
-          listen: false,
-        );
-        if (poService.purchaseOrders.isEmpty) {
-          SampleDataService.initializeSampleData(poService);
-        }
         navigator.pushReplacementNamed('/home');
       } catch (e, stackTrace) {
         LoggingService.error('Login error', e, stackTrace);
@@ -187,7 +176,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   style: theme.textTheme.headlineSmall
                                       ?.copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                const LanguageToggle(),
                               ],
                             ),
                             const SizedBox(height: Branding.spacingL),

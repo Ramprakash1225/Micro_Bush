@@ -5,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'l10n/app_localizations.dart';
 import 'services/purchase_order_service.dart';
 import 'services/user_service.dart';
-import 'services/language_service.dart';
-import 'services/sample_data_service.dart';
 import 'constants/branding.dart';
 import 'screens/po_list_screen.dart';
 import 'screens/login_screen.dart';
@@ -23,34 +21,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => LanguageService()),
         ChangeNotifierProvider(create: (_) => PurchaseOrderService()),
         ChangeNotifierProvider(create: (_) => UserService()),
       ],
-      child: Consumer<LanguageService>(
-        builder: (context, languageService, _) {
-          // Initialize sample data on first load
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            final poService = Provider.of<PurchaseOrderService>(
-              context,
-              listen: false,
-            );
-            if (poService.purchaseOrders.isEmpty) {
-              SampleDataService.initializeSampleData(poService);
-            }
-          });
-
-          return MaterialApp(
+      child: MaterialApp(
             title: Branding.appName,
             debugShowCheckedModeBanner: false,
-            locale: languageService.currentLocale,
+            locale: const Locale('en'),
             localizationsDelegates: [
               AppLocalizations.delegate,
               GlobalMaterialLocalizations.delegate,
               GlobalWidgetsLocalizations.delegate,
               GlobalCupertinoLocalizations.delegate,
             ],
-            supportedLocales: const [Locale('en', ''), Locale('ta', '')],
+            supportedLocales: const [Locale('en', '')],
             theme: ThemeData(
               useMaterial3: true,
               colorScheme: ColorScheme.fromSeed(
@@ -148,29 +132,22 @@ class MyApp extends StatelessWidget {
               scaffoldBackgroundColor: Branding.backgroundColor,
               fontFamily: 'Roboto',
             ),
-            initialRoute: '/login',
-            routes: {
-              '/login': (context) => const LoginScreen(),
-              '/home': (context) => const POListScreen(),
-            },
-            onGenerateRoute: (settings) {
-              // Check if user is logged in for protected routes
-              if (settings.name == '/home') {
-                final userService = Provider.of<UserService>(
-                  context,
-                  listen: false,
-                );
-                if (userService.currentUser == null) {
-                  return MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  );
-                }
-              }
-              return null;
-            },
-          );
-        },
-      ),
+      initialRoute: '/login',
+      routes: {
+        '/login': (context) => const LoginScreen(),
+        '/home': (context) => const POListScreen(),
+      },
+      onGenerateRoute: (settings) {
+        // Check if user is logged in for protected routes
+        if (settings.name == '/home') {
+          final userService = Provider.of<UserService>(context, listen: false);
+          if (userService.currentUser == null) {
+            return MaterialPageRoute(builder: (context) => const LoginScreen());
+          }
+        }
+        return null;
+      },
+    ),
     );
   }
 }
